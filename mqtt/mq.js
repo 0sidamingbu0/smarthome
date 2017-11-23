@@ -75,7 +75,8 @@ var parseMsg = function(packet){
 
 
 exports.mqinit = function(){ 
- console.log('mqinit');
+ console.log('mqinit '+global.macaddr);
+
  }
 
 exports.sendCommond = function(msg){	
