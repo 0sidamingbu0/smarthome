@@ -3,14 +3,14 @@ var gatewayService = require('../service/gatewayService');
 
 
 var connectionOpts = {
-    clientId: 'b8:02',
+    clientId: global.macaddr,
     keepalive: 60,
     connectTimeout: 10 * 1000,
     reconnectPeriod: 1 * 1000,
     clean: true,
     will: {
         topic: "device-will",
-        payload: 'b8:02',
+        payload: global.macaddr,
         qos: 0,
         retain: false
     },
@@ -24,14 +24,14 @@ var client  = mqtt.connect('tcp://yulurobot.cn:1883',connectionOpts)
 
 client.on('connect', function () {
     console.log('connected');
-    client.subscribe('b8:02');
+    client.subscribe(global.macaddr);
     
 });
 
 client.on('message', function (topic, message) {
   // message is Buffer
     console.log(topic+'|'+message.toString());
-    if(topic == 'b8:02'){
+    if(topic == global.macaddr){
         parseMsg(message);
     }
   
@@ -80,5 +80,5 @@ exports.mqinit = function(){
 
 exports.sendCommond = function(msg){	
 	//console.log("mq sendCommond:"+JSON.stringify(msg));
-	client.publish('b8:02', JSON.stringify(msg));
+	client.publish(global.macaddr, JSON.stringify(msg));
 }
